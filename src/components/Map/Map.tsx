@@ -26,7 +26,7 @@ export const Map = ({position}: IProp) => {
     <div className={styles.map}>
       <MapContainer
         key={position.lat}
-        center={[position.lat, position.lng]}
+        center={[Number(position.lat) + 0.01, position.lng]}
         zoom={13}
         scrollWheelZoom
         className={styles.mapContainer}
