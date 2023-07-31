@@ -43,16 +43,19 @@ function App() {
   }, []);
   useEffect(() => {
     if (ipAddress) {
-      fetch(
-        `https://geo.ipify.org/api/v2/country,city?apiKey=at_3qmlDaay8nIBIyxf7Lia1IPzdJ3X3&${ipAddress.ip}`
-      )
-        .then((response) => response.json())
-        .then((data) => {
-          setIpInfo(data);
-          console.log(data);
-        });
+      searchForIp(ipAddress.ip)
     }
   }, [ipAddress]);
+
+  const searchForIp = (address: string) => {
+    fetch(
+      `https://geo.ipify.org/api/v2/country,city?apiKey=at_3qmlDaay8nIBIyxf7Lia1IPzdJ3X3&ipAddress=${address}`
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        setIpInfo(data);
+      });
+  }
 
   const formLocation = () => {
     return `${ipInfo?.location.country}, ${
@@ -64,7 +67,7 @@ function App() {
     <div className={styles.App}>
       <div className={styles.upper}>
         <Title text="IP tracker" />
-        <SearchBar />
+        <SearchBar submitSearch={(address: string) => {searchForIp(address)}}/>
         {ipInfo && (
           <Table
             ip={ipInfo?.ip}

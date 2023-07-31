@@ -26,4 +26,11 @@
   background: $black;
   color: $white;
   font-family: $rubikBold;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 600px) {
+  .search {
+    margin-top: 2vh;
+  }
 }

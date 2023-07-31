@@ -3,7 +3,7 @@ import Leaflet from "leaflet";
 
 import styles from "./Map.module.scss";
 import "leaflet/dist/leaflet.css";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 delete (Leaflet.Icon.Default.prototype as any)._getIconUrl;
 
@@ -25,6 +25,7 @@ export const Map = ({position}: IProp) => {
   return (
     <div className={styles.map}>
       <MapContainer
+        key={position.lat}
         center={[position.lat, position.lng]}
         zoom={13}
         scrollWheelZoom

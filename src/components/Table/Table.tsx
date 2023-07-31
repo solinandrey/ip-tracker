@@ -16,7 +16,9 @@ export const Table = ({ ip, location, timezone, isp }: IProps) => {
       { title: "timezone", value: timezone },
       { title: "isp", value: isp },
     ];
-  }, []);
+  }, [ip]);
+
+
   return (
     <div className={styles.table}>
       {formTable().map((item) => {

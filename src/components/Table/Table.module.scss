@@ -36,13 +36,45 @@
 }
 
 .cellTitle {
-  font-family: $rubik;
-  font-size: 18px;
+  font-family: $rubikBold;
+  font-size: 16px;
   color: $grey;
+  text-transform: uppercase;
 }
 
 .cellContent {
   margin-top: 15px;
   font-size: 22px;
   font-family: $rubikMedium;
+}
+
+@media screen and (max-width: 600px) {
+  .table {
+    padding: 10px 10px 20px;
+    width: 90vw;
+    margin-top: 20px;
+    flex-direction: column;
+  }
+
+  .cell {
+    width: 100%;
+    padding-left: 0px;
+    align-items: center;
+    margin-top: 10px;
+
+    &:not(:last-child) {
+      &:after {
+        display: none;
+      }
+    }
+  }
+
+  .cellTitle {
+    font-size: 11px;
+  }
+
+  .cellContent {
+    font-size: 15px;
+    margin-top: 5px;
+  }
 }

@@ -24,3 +24,9 @@
   background: $black;
 }
 
+@media screen and (max-width: 600px) {
+  .App {
+    padding-top: 20px;
+  }
+}
+
