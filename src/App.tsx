@@ -7,27 +7,22 @@ import Table from "./components/Table";
 import Map from "./components/Map";
 
 interface IpInfo {
-  ip: string;
-  location: {
-    country: string;
-    region: string;
-    timezone: string;
-    city: string;
-    lat: number;
-    lng: number;
-    postalCode: string;
-    geonameId: number;
-  };
-  domains: string[];
-  as: {
-    asn: number;
-    domain: string;
-    name: string;
-    route: string;
-    type: string;
-  };
-  isp: string;
+  status: string,
+  country: string,
+  countryCode: string,
+  region: string,
+  regionName: string,
+  city: string,
+  zip: string,
+  lat: number,
+  lon: number,
+  timezone: string,
+  isp: string,
+  org: string,
+  as: string,
+  query: string
 }
+
 
 interface IpAddress {
   ip: string;
@@ -49,18 +44,19 @@ function App() {
 
   const searchForIp = (address: string) => {
     fetch(
-      `https://geo.ipify.org/api/v2/country,city?apiKey=at_3qmlDaay8nIBIyxf7Lia1IPzdJ3X3&ipAddress=${address}`
+      `http://ip-api.com/json/${address}`
     )
       .then((response) => response.json())
       .then((data) => {
+        console.log(data)
         setIpInfo(data);
       });
   }
 
   const formLocation = () => {
-    return `${ipInfo?.location.country}, ${
-      ipInfo?.location.region ? ipInfo?.location.region + "," : ""
-    } ${ipInfo?.location.city}`;
+    return `${ipInfo?.country}, ${
+      ipInfo?.region ? ipInfo?.region + "," : ""
+    } ${ipInfo?.city}`;
   };
 
   return (
@@ -70,15 +66,15 @@ function App() {
         <SearchBar submitSearch={(address: string) => {searchForIp(address)}}/>
         {ipInfo && (
           <Table
-            ip={ipInfo?.ip}
+            ip={ipInfo?.query}
             location={formLocation()}
-            timezone={ipInfo.location.timezone}
+            timezone={ipInfo.timezone}
             isp={ipInfo.isp}
           />
         )}
       </div>
       <div className={styles.bottom}>
-        {ipInfo?.location && <Map position={{...ipInfo?.location}}/>}
+        {ipInfo && <Map position={{...ipInfo, lng: ipInfo.lon}}/>}
       </div>
     </div>
   );
