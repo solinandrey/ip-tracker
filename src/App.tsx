@@ -7,20 +7,16 @@ import Table from "./components/Table";
 import Map from "./components/Map";
 
 interface IpInfo {
-  status: string,
-  country: string,
-  countryCode: string,
-  region: string,
-  regionName: string,
+  country_name: string,
   city: string,
-  zip: string,
-  lat: number,
-  lon: number,
-  timezone: string,
+  latitude: number,
+  longitude: number,
+  time_zone: {
+    name: string;
+    current_time: string;
+  },
   isp: string,
-  org: string,
-  as: string,
-  query: string
+  ip: string
 }
 
 
@@ -44,7 +40,7 @@ function App() {
 
   const searchForIp = (address: string) => {
     fetch(
-      `http://ip-api.com/json/${address}`
+      `https://api.ipgeolocation.io/ipgeo?apiKey=04f8804390a34325afa93d5e3a298f42&ip=${address}`
     )
       .then((response) => response.json())
       .then((data) => {
@@ -54,10 +50,12 @@ function App() {
   }
 
   const formLocation = () => {
-    return `${ipInfo?.country}, ${
-      ipInfo?.region ? ipInfo?.region + "," : ""
-    } ${ipInfo?.city}`;
+    return `${ipInfo?.country_name}, ${ipInfo?.city}`;
   };
+
+  const formTimezone = () => {
+    return `${ipInfo?.time_zone.name}, ${ipInfo?.time_zone.name}`;
+  }
 
   return (
     <div className={styles.App}>
@@ -66,15 +64,15 @@ function App() {
         <SearchBar submitSearch={(address: string) => {searchForIp(address)}}/>
         {ipInfo && (
           <Table
-            ip={ipInfo?.query}
+            ip={ipInfo?.ip}
             location={formLocation()}
-            timezone={ipInfo.timezone}
+            timezone={formTimezone()}
             isp={ipInfo.isp}
           />
         )}
       </div>
       <div className={styles.bottom}>
-        {ipInfo && <Map position={{...ipInfo, lng: ipInfo.lon}}/>}
+        {ipInfo && <Map position={{lat: ipInfo.latitude, lng: ipInfo.longitude}}/>}
       </div>
     </div>
   );
